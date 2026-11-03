@@ -13,3 +13,8 @@ export function startOfTodayKST(now: Date = new Date()): Date {
 export function daysFromTodayKST(days: number, now: Date = new Date()): Date {
   return new Date(startOfTodayKST(now).getTime() + days * DAY_MS);
 }
+
+/** 한국 시간 기준 날짜 문자열 (YYYY-MM-DD) */
+export function kstDateKey(d: Date): string {
+  return new Date(d.getTime() + KST_OFFSET_MS).toISOString().slice(0, 10);
+}

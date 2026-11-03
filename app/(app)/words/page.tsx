@@ -9,6 +9,7 @@ const FILTERS = [
   { key: "all", label: "전체" },
   { key: "learning", label: "학습 중" },
   { key: "known", label: "외움" },
+  { key: "wrong", label: "틀린 단어" },
 ] as const;
 
 export default async function WordsPage({
@@ -21,16 +22,22 @@ export default async function WordsPage({
 
   let query = getSupabase()
     .from("words")
-    .select("*", { count: "exact" })
-    .order("created_at", { ascending: false })
-    .limit(300);
+    .select("*", { count: "exact" });
 
   if (filter === "learning") query = query.lt("level", MAX_LEVEL);
   if (filter === "known") query = query.gte("level", MAX_LEVEL);
+  if (filter === "wrong") query = query.gt("wrong_count", 0);
   if (term) query = query.or(`word.ilike.%${term}%,meaning.ilike.%${term}%`);
 
-  const { data, count, error } = await query;
-  if (error) throw error;
+  query =
+    filter === "wrong"
+      ? query
+          .order("wrong_count", { ascending: false })
+          .order("last_reviewed_at", { ascending: false, nullsFirst: false })
+      : query.order("created_at", { ascending: false });
+
+  const { data, count, error } = await query.limit(300);
+  if (error) throw new Error(error.message || "Supabase 오류");
   const words = (data ?? []) as Word[];
 
   const href = (f: string) =>
@@ -77,7 +84,11 @@ export default async function WordsPage({
 
       {words.length === 0 ? (
         <p className="mt-10 text-center text-sm text-stone-500">
-          {term || filter !== "all" ? "조건에 맞는 단어가 없어요." : "아직 단어가 없어요."}
+          {filter === "wrong"
+            ? "아직 틀린 단어가 없어요. 👍"
+            : term || filter !== "all"
+              ? "조건에 맞는 단어가 없어요."
+              : "아직 단어가 없어요."}
         </p>
       ) : (
         <ul className="mt-4 space-y-2.5">
@@ -93,6 +104,11 @@ export default async function WordsPage({
                   <LevelDots level={w.level} />
                 </div>
                 <p className="mt-0.5 text-sm text-stone-600 dark:text-stone-300">{w.meaning}</p>
+                {w.wrong_count > 0 && (
+                  <p className="mt-1 text-xs font-medium text-red-500">
+                    틀림 {w.wrong_count}번 · 맞힘 {w.correct_count}번
+                  </p>
+                )}
                 {w.example && (
                   <p className="mt-1 text-sm italic text-stone-400">{w.example}</p>
                 )}

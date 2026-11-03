@@ -1,6 +1,6 @@
 import type { QType, Question } from "./types";
 
-type WordLite = { id: string; word: string; meaning: string };
+type WordLite = { id: string; word: string; meaning: string; example?: string | null };
 type StudyWord = WordLite & { example: string | null; level: number };
 
 /** 숙련도별로 나올 수 있는 문제 유형 */
@@ -8,9 +8,41 @@ export const TYPES_BY_LEVEL: Record<number, QType[]> = {
   0: ["flashcard", "mc_en_ko"],
   1: ["mc_en_ko", "cloze_mc"],
   2: ["mc_ko_en", "cloze_mc"],
-  3: ["listen_meaning"],
-  4: ["listen_word", "cloze_mc"],
+  3: ["listen_meaning", "build_sentence"],
+  4: ["listen_word", "cloze_mc", "build_sentence"],
 };
+
+/** 문장을 타일(공백 기준 단어)로 나눔. 끝의 문장부호(. , ! ? ; :)는 뗌 — 부호가 정답 단서가 되지 않게 */
+export function tokenizeSentence(sentence: string): string[] {
+  return sentence
+    .trim()
+    .split(/\s+/)
+    .map((t) => t.replace(/[.,!?;:]+$/, ""))
+    .filter(Boolean);
+}
+
+const stripPunct = (t: string) => t.toLowerCase().replace(/[^a-z']/g, "");
+
+/** 정답 타일 + 헷갈리는 오답 타일 (다른 단어의 예문에서 가져옴) 을 섞어 만든 보기 */
+export function makeTiles(tokens: string[], otherSentences: string[], extraCount = 2): string[] {
+  const have = new Set(tokens.map(stripPunct));
+  const extras: string[] = [];
+  for (const sent of shuffle(otherSentences)) {
+    for (const t of shuffle(tokenizeSentence(sent))) {
+      const k = stripPunct(t);
+      if (!k || have.has(k)) continue;
+      have.add(k);
+      extras.push(t);
+      break;
+    }
+    if (extras.length >= extraCount) break;
+  }
+  let tiles = shuffle([...tokens, ...extras]);
+  for (let i = 0; i < 5 && tiles.join(" ") === tokens.join(" ") && tiles.length > 1; i++) {
+    tiles = shuffle([...tokens, ...extras]);
+  }
+  return tiles;
+}
 
 export function primaryMeaning(meaning: string): string {
   const first = meaning.split(",")[0]?.trim();
@@ -67,25 +99,149 @@ export function makeCloze(example: string | null, word: string): string | null {
   return ex.replace(re, "____");
 }
 
-/** 정답과 겹치지 않는 오답 보기 3개. 후보가 모자라면 null */
-function pickDistractors(
-  answer: string,
-  candidates: string[],
-  similarSpelling: boolean,
-): string[] | null {
-  const uniq = [
-    ...new Set(
-      candidates.filter((c) => c && c.toLowerCase() !== answer.toLowerCase()),
-    ),
-  ];
-  if (uniq.length < 3) return null;
-  let pool = uniq;
-  if (similarSpelling) {
-    pool = [...uniq]
-      .sort((x, y) => levenshtein(answer, x) - levenshtein(answer, y))
-      .slice(0, 6);
+/** 뜻을 조각으로 나눔: "밥, 쌀" → ["밥","쌀"], "형·오빠" → ["형","오빠"] */
+function meaningTokens(meaning: string): string[] {
+  return meaning
+    .replace(/\([^)]*\)/g, "")
+    .split(/[,;/·]/)
+    .map((t) => t.replace(/[~\s]/g, "").toLowerCase())
+    .filter(Boolean);
+}
+
+/**
+ * 두 단어가 헷갈릴 만큼 뜻이 겹치는지.
+ * - 뜻 조각이 같거나 (밥 / 밥)
+ * - 한쪽이 다른 쪽을 포함 (안녕 / 안녕하세요, 좋아하다 / 좋아해요)
+ */
+export function meaningsConflict(a: string, b: string): boolean {
+  const ta = meaningTokens(a);
+  const tb = meaningTokens(b);
+  return ta.some((x) =>
+    tb.some((y) => x === y || (Math.min(x.length, y.length) >= 2 && (x.includes(y) || y.includes(x)))),
+  );
+}
+
+type Cand = { text: string; meaning: string; word: string; example?: string | null };
+type Pos = "verb" | "adj" | "phrase" | "noun";
+
+/** 한글 마지막 글자의 받침이 ㄴ 인지 (한/운/은/른/는/인 → 형용사류) */
+function endsWithNieun(s: string): boolean {
+  const code = s.charCodeAt(s.length - 1) - 0xac00;
+  return code >= 0 && code <= 11171 && code % 28 === 4;
+}
+
+/** 품사를 대충 짐작: 오답을 같은 종류(동사는 동사끼리)로 뽑기 위함 */
+function guessPos(word: string, meaning: string): Pos {
+  const m = primaryMeaning(meaning).trim();
+  if (/\s|['?!]/.test(word.trim()) || /(요|까|세요)$/.test(m) || /\s/.test(m)) {
+    return /^[a-z]+(\s[a-z]+)?$/i.test(word.trim()) && /다$/.test(m) ? "verb" : "phrase";
   }
-  return shuffle(pool).slice(0, 3);
+  if (/다$/.test(m)) return "verb";
+  if (endsWithNieun(m)) return "adj";
+  return "noun";
+}
+
+const STOP = new Set(["the","and","for","you","your","are","was","with","this","that","have","has","can","please","there","not","but","its","his","her","our","from","what","how","let"]);
+
+/** 예문에서 의미 있는 영어 단어만 뽑기 (대상 단어 자신과 짧은/흔한 단어는 제외) */
+function exampleTokens(example: string | null | undefined, word: string): Set<string> {
+  const self = word.toLowerCase();
+  return new Set(
+    (example ?? "")
+      .toLowerCase()
+      .split(/[^a-z']+/)
+      .filter((t) => t.length >= 3 && !STOP.has(t) && !self.includes(t) && !t.includes(self)),
+  );
+}
+
+/** 예문이 비슷한 단어는 같은 상황/주제일 가능성이 높음 (eat 이 들어간 음식끼리 등) */
+function exampleOverlap(a: Cand, b: Cand): number {
+  const ta = exampleTokens(a.example, a.word);
+  const tb = exampleTokens(b.example, b.word);
+  if (ta.size === 0 || tb.size === 0) return 0;
+  let hit = 0;
+  for (const t of ta) if (tb.has(t)) hit++;
+  return hit / (ta.size + tb.size - hit);
+}
+
+function charOverlap(a: string, b: string): number {
+  const sa = new Set(a);
+  const sb = new Set(b);
+  let hit = 0;
+  for (const c of sa) if (sb.has(c)) hit++;
+  return hit / Math.max(sa.size, sb.size, 1);
+}
+
+/** 정답과 얼마나 헷갈리는지 (클수록 헷갈림) */
+function confusability(answer: Cand, c: Cand, byWord: boolean): number {
+  let score = 0;
+  if (guessPos(answer.word, answer.meaning) === guessPos(c.word, c.meaning)) score += 3;
+  score += 4 * exampleOverlap(answer, c);
+  if (byWord) {
+    // 영어 단어를 고르는 문제: 철자가 비슷할수록 헷갈림
+    const a = answer.text.toLowerCase();
+    const b = c.text.toLowerCase();
+    score += 4 * (1 - levenshtein(a, b) / Math.max(a.length, b.length, 1));
+    if (a[0] === b[0]) score += 0.7;
+    if (a.at(-1) === b.at(-1)) score += 0.5;
+  } else {
+    // 뜻을 고르는 문제: 글자 수와 글자가 비슷할수록, 같은 어미일수록 헷갈림
+    const a = answer.text;
+    const b = c.text;
+    score += 2 * charOverlap(a, b);
+    score += 1.5 * (1 - Math.abs(a.length - b.length) / Math.max(a.length, b.length, 1));
+    if (a.at(-1) === b.at(-1)) score += 1;
+  }
+  return score;
+}
+
+/**
+ * 정답과 헷갈리지만 정답은 아닌 오답 보기 3개. 후보가 모자라면 null.
+ * - 뜻이 정답과 겹치는 후보(동의어 등)는 뺌: 실제로 정답이 될 수 있으니까
+ * - 품사가 같고 모양이 비슷한 후보를 우선: 숙련도가 높을수록 더 비슷한 것만
+ * - 걸러내고 3개가 안 남으면(단어장이 작을 때) 조건을 풀어 채움
+ */
+function pickDistractors(
+  answer: Cand,
+  candidates: Cand[],
+  byWord: boolean,
+  level: number,
+): string[] | null {
+  const seen = new Set<string>();
+  const uniq = candidates.filter((c) => {
+    const k = c.text.toLowerCase();
+    if (!c.text || k === answer.text.toLowerCase() || seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+  if (uniq.length < 3) return null;
+
+  // 숙련도 0~1: 비슷한 후보 12개 중에서 무작위, 2: 8개, 3 이상: 가장 비슷한 5개
+  const topK = level <= 1 ? 12 : level === 2 ? 8 : 5;
+  const ranked = [...uniq]
+    .map((c) => ({ c, s: confusability(answer, c, byWord) + Math.random() * 0.6 }))
+    .sort((x, y) => y.s - x.s)
+    .map((x) => x.c);
+
+  const chosen: Cand[] = [];
+  const tryAdd = (list: Cand[]) => {
+    for (const c of list) {
+      if (chosen.length >= 3) break;
+      if (chosen.includes(c)) continue;
+      if (meaningsConflict(answer.meaning, c.meaning)) continue;
+      if (chosen.some((x) => meaningsConflict(x.meaning, c.meaning))) continue;
+      chosen.push(c);
+    }
+  };
+  tryAdd(shuffle(ranked.slice(0, topK)));
+  if (chosen.length < 3) tryAdd(ranked);
+  if (chosen.length < 3) {
+    for (const c of ranked) {
+      if (chosen.length >= 3) break;
+      if (!chosen.includes(c)) chosen.push(c);
+    }
+  }
+  return chosen.map((c) => c.text);
 }
 
 /**
@@ -111,9 +267,19 @@ export function buildQuestion(
   };
 
   const wordOpts = () =>
-    pickDistractors(w.word, others.map((o) => o.word), true);
+    pickDistractors(
+      { text: w.word, meaning: w.meaning, word: w.word, example: w.example },
+      others.map((o) => ({ text: o.word, meaning: o.meaning, word: o.word, example: o.example })),
+      true,
+      level,
+    );
   const meaningOpts = () =>
-    pickDistractors(primary, others.map((o) => primaryMeaning(o.meaning)), false);
+    pickDistractors(
+      { text: primary, meaning: w.meaning, word: w.word, example: w.example },
+      others.map((o) => ({ text: primaryMeaning(o.meaning), meaning: o.meaning, word: o.word, example: o.example })),
+      false,
+      level,
+    );
 
   const candidates = shuffle(TYPES_BY_LEVEL[Math.min(Math.max(level, 0), 4)]);
   for (const type of candidates) {
@@ -127,6 +293,21 @@ export function buildQuestion(
     if (type === "mc_ko_en" || type === "listen_word") {
       const d = wordOpts();
       if (d) return { ...base, type, options: shuffle([w.word, ...d]), answer: w.word };
+    }
+    if (type === "build_sentence") {
+      const sentence = w.example?.trim().replace(/\s+/g, " ");
+      const tokens = sentence ? tokenizeSentence(sentence) : [];
+      if (sentence && tokens.length >= 3 && tokens.length <= 10) {
+        const others2 = others.map((o) => o.example).filter((e): e is string => Boolean(e));
+        return {
+          ...base,
+          type,
+          options: [],
+          answer: tokens.join(" "),
+          sentenceTokens: tokens,
+          tiles: makeTiles(tokens, others2),
+        };
+      }
     }
     if (type === "cloze_mc") {
       const cloze = makeCloze(w.example, w.word);

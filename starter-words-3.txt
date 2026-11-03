@@ -1,0 +1,117 @@
+wake up | 일어나다 | I wake up at seven.
+get up | 침대에서 일어나다 | I get up and brush my teeth.
+brush | 닦다 | I brush my teeth twice a day.
+shower | 샤워 | I take a shower every morning.
+breakfast | 아침 식사 | I skip breakfast sometimes.
+lunch | 점심 식사 | Let's have lunch together.
+dinner | 저녁 식사 | What's for dinner?
+snack | 간식 | I eat a snack at three.
+kitchen | 부엌 | Mom is in the kitchen.
+bedroom | 침실 | My bedroom is small.
+bathroom | 화장실 | The bathroom is upstairs.
+living room | 거실 | We watch TV in the living room.
+door | 문 | Please close the door.
+window | 창문 | Open the window, please.
+key | 열쇠 | I lost my key.
+clean | 청소하다 | I clean my room on Sunday.
+wash | 씻다 | Wash your hands before lunch.
+turn on | 켜다 | Turn on the light, please.
+turn off | 끄다 | Turn off the TV.
+open | 열다 | Open your book.
+close | 닫다 | Please close the window.
+wait | 기다리다 | Wait here, please.
+hurry | 서두르다 | Hurry up! We're late.
+bring | 가져오다 | Bring your umbrella.
+take | 가져가다 | Take this with you.
+give | 주다 | Give me a minute.
+show | 보여주다 | Show me your phone.
+tell | 말해주다 | Tell me the truth.
+ask | 묻다 | I want to ask a question.
+answer | 대답하다 | Please answer the phone.
+call | 전화하다 | I'll call you tonight.
+send | 보내다 | Send me a message.
+buy | 사다 | I want to buy a coat.
+sell | 팔다 | They sell fresh fruit.
+pay | 지불하다 | I'll pay by card.
+spend | 쓰다 | I spend too much money.
+save | 아끼다 | I save money every month.
+wear | 입다 | I wear a jacket today.
+carry | 들고 다니다 | I carry my bag to work.
+doctor | 의사 | I need to see a doctor.
+hospital | 병원 | He is in the hospital.
+medicine | 약 | Take this medicine twice a day.
+headache | 두통 | I have a headache.
+fever | 열 | She has a fever.
+cough | 기침 | I have a bad cough.
+sick | 아픈 | I feel sick today.
+healthy | 건강한 | Eat well and stay healthy.
+pain | 통증 | I have a pain in my back.
+rest | 쉬다 | You need to rest.
+exercise | 운동 | I exercise three times a week.
+walk | 걷다 | I walk to work.
+swim | 수영하다 | I swim on Saturdays.
+work | 일하다 | I work from nine to six.
+office | 사무실 | I'm at the office now.
+meeting | 회의 | I have a meeting at ten.
+boss | 상사 | My boss is nice.
+coworker | 동료 | My coworker helped me.
+customer | 손님 | The customer is waiting.
+company | 회사 | I work for a small company.
+busy | 바쁜 | I'm busy this week.
+free | 한가한 | Are you free tonight?
+appointment | 약속 | I have a doctor's appointment.
+schedule | 일정 | What's your schedule today?
+deadline | 마감일 | The deadline is Friday.
+today | 오늘 | Today is Monday.
+tomorrow | 내일 | See you tomorrow.
+yesterday | 어제 | I saw him yesterday.
+tonight | 오늘 밤 | I'm free tonight.
+morning | 아침 | I run in the morning.
+afternoon | 오후 | I have class this afternoon.
+evening | 저녁 | We walk in the evening.
+week | 주 | I'll call you next week.
+month | 달 | The rent is due this month.
+year | 해 | I'll travel next year.
+minute | 분 | Wait a minute.
+hour | 시간 | The movie is two hours long.
+bus | 버스 | I take the bus to school.
+subway | 지하철 | The subway is fast.
+taxi | 택시 | Let's take a taxi.
+car | 자동차 | My car is old.
+drive | 운전하다 | I drive to work.
+traffic | 교통 체증 | The traffic is bad today.
+parking | 주차 | Is there parking here?
+road | 길 | This road is long.
+street | 거리 | The shop is on this street.
+bank | 은행 | I'm going to the bank.
+store | 가게 | The store opens at nine.
+supermarket | 슈퍼마켓 | I buy milk at the supermarket.
+park | 공원 | We walk in the park.
+library | 도서관 | I study at the library.
+thirsty | 목마른 | I'm thirsty. Water, please.
+full | 배부른 | I'm full, thank you.
+sleepy | 졸린 | I'm sleepy after lunch.
+careful | 조심하는 | Be careful on the stairs.
+easy | 쉬운 | This test is easy.
+difficult | 어려운 | English is difficult for me.
+important | 중요한 | This is very important.
+different | 다른 | This one is different.
+same | 같은 | We have the same phone.
+ready | 준비된 | Are you ready?
+sure | 확실한 | I'm not sure.
+maybe | 어쩌면 | Maybe I'll go.
+probably | 아마도 | It will probably rain.
+really | 정말 | I really like it.
+very | 매우 | It's very cold today.
+too | 너무 | The soup is too hot.
+a little | 조금 | I speak a little English.
+a lot | 많이 | Thank you a lot.
+I think | 제 생각에는 | I think it's a good idea.
+I hope | 바라요 | I hope you feel better.
+I feel | 느껴요 | I feel great today.
+I need | 필요해요 | I need some help.
+I'm looking for | 찾고 있어요 | I'm looking for my phone.
+Let me see | 어디 보자 | Let me see. Maybe at six.
+Is it okay? | 괜찮아요? | Is it okay if I sit here?
+No worries | 걱정 마세요 | No worries, it's fine.
+That's great | 잘됐네요 | That's great! Congratulations.

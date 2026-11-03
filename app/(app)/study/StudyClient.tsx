@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useSyncExternalStore } from "react";
+import SentenceBuilder from "@/components/SentenceBuilder";
+import SpeakingPractice from "@/components/SpeakingPractice";
 import Speaker from "@/components/Speaker";
 import { shuffle } from "@/lib/questions";
 import { canSpeak } from "@/lib/speech";
@@ -54,7 +56,15 @@ export default function StudyClient({ questions }: { questions: Question[] }) {
   }
 
   function startRetry(list: Question[]) {
-    setQueue(shuffle(list.map((x) => ({ ...x, options: shuffle(x.options) }))));
+    setQueue(
+      shuffle(
+        list.map((x) => ({
+          ...x,
+          options: shuffle(x.options),
+          tiles: x.tiles ? shuffle(x.tiles) : undefined,
+        })),
+      ),
+    );
     setIndex(0);
     setPhase("retry");
     setAnswered(null);
@@ -81,6 +91,11 @@ export default function StudyClient({ questions }: { questions: Question[] }) {
     const correct = option === q.answer;
     commit(q, correct);
     setAnswered({ correct, picked: option });
+  }
+
+  function onBuilt(correct: boolean) {
+    commit(q, correct);
+    setAnswered({ correct, picked: "" });
   }
 
   function onRate(correct: boolean) {
@@ -146,12 +161,41 @@ export default function StudyClient({ questions }: { questions: Question[] }) {
               </div>
             )}
             {q.type === "mc_ko_en" && (
-              <p className="mt-3 text-3xl font-bold">{q.primaryMeaning}</p>
+              <div className="mt-3">
+                <p className="text-3xl font-bold">{q.primaryMeaning}</p>
+                {q.meaning.trim() !== q.primaryMeaning && (
+                  <p className="mt-1 text-sm text-stone-400">({q.meaning})</p>
+                )}
+              </div>
             )}
             {q.type === "cloze_mc" && q.cloze && (
-              <p className="mt-3 text-xl font-semibold leading-relaxed">
-                <Cloze text={q.cloze} filled={answered ? q.word : null} />
-              </p>
+              <>
+                <p className="mt-3 text-xl font-semibold leading-relaxed">
+                  <Cloze text={q.cloze} filled={answered ? q.word : null} />
+                </p>
+                <p className="mt-3 inline-block rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                  빈칸의 뜻: {q.primaryMeaning}
+                </p>
+              </>
+            )}
+            {q.type === "build_sentence" && (
+              <div className="mt-3 flex flex-col items-center gap-3">
+                {speechOk ? (
+                  <>
+                    <Speaker text={q.answer} size="lg" />
+                    {!answered && (
+                      <p className="text-xs text-stone-400">
+                        버튼을 눌러 문장을 듣고, 들은 대로 완성해 보세요
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <p className="text-lg font-semibold">{q.answer}</p>
+                )}
+                <p className="rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                  핵심 단어: {q.word} ({q.primaryMeaning})
+                </p>
+              </div>
             )}
             {isListen && (
               <div className="mt-3 flex flex-col items-center gap-3">
@@ -166,6 +210,15 @@ export default function StudyClient({ questions }: { questions: Question[] }) {
               </div>
             )}
           </div>
+
+          {q.type === "build_sentence" && q.sentenceTokens && q.tiles && (
+            <SentenceBuilder
+              key={q.key}
+              answer={q.sentenceTokens}
+              tiles={q.tiles}
+              onChecked={onBuilt}
+            />
+          )}
 
           <div className="mt-4 grid gap-2.5">
             {q.options.map((opt) => (
@@ -218,6 +271,8 @@ function promptLabel(q: Question): string {
       return "듣고 뜻을 고르세요";
     case "listen_word":
       return "듣고 알맞은 단어를 고르세요";
+    case "build_sentence":
+      return "듣고 문장을 완성하세요";
     default:
       return "";
   }
@@ -294,6 +349,7 @@ function Reveal({ q }: { q: Question }) {
           <Speaker text={q.example} size="sm" label="예문 듣기" />
         </div>
       )}
+      {q.example && <SpeakingPractice target={q.example} />}
     </div>
   );
 }
@@ -383,7 +439,7 @@ function Result({
           {total}개 중 {correct}개 맞혔어요
         </h1>
         <p className="mt-1 text-sm text-stone-500">
-          {perfect ? "하나도 안 틀렸어요!" : "틀린 단어는 내일 다시 나와요."}
+          {perfect ? "하나도 안 틀렸어요!" : "틀린 단어는 내일 다시 나와요. 단어장의 ‘틀린 단어’에서 따로 볼 수 있어요."}
         </p>
       </div>
 

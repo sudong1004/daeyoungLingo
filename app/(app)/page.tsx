@@ -3,7 +3,15 @@ import { getHomeStats } from "@/lib/session";
 
 export default async function HomePage() {
   const s = await getHomeStats();
-  const todo = s.dueCount + s.newToday;
+  const todo = s.dueNext + s.newNext;
+  const mood =
+    s.accuracy === null
+      ? "처음이라 기본 분량으로 시작해요."
+      : s.accuracy >= 0.85
+        ? `요즘 정답률 ${Math.round(s.accuracy * 100)}%! 잘하고 있어서 조금 더 담았어요.`
+        : s.accuracy >= 0.65
+          ? `요즘 정답률 ${Math.round(s.accuracy * 100)}%. 적당한 분량이에요.`
+          : `요즘 정답률 ${Math.round(s.accuracy * 100)}%. 천천히 가도록 적게 담았어요.`;
 
   return (
     <main>
@@ -41,11 +49,12 @@ export default async function HomePage() {
           </>
         ) : (
           <>
-            <p className="text-sm text-indigo-100">오늘 풀 단어</p>
+            <p className="text-sm text-indigo-100">이번에 풀 단어</p>
             <p className="mt-1 text-4xl font-bold">{todo}개</p>
             <p className="mt-1 text-sm text-indigo-100">
-              복습 {s.dueCount}개 · 새 단어 {s.newToday}개
+              복습 {s.dueNext}개 · 새 단어 {s.newNext}개
             </p>
+            <p className="mt-1 text-xs text-indigo-200">{mood}</p>
             <Link
               href="/study"
               className="mt-5 block rounded-2xl bg-white py-3.5 text-center text-base font-semibold text-indigo-700 active:bg-indigo-50"
@@ -56,10 +65,39 @@ export default async function HomePage() {
         )}
       </section>
 
+      <Link
+        href="/stats"
+        className="mt-4 flex items-center justify-between rounded-2xl border border-orange-200 bg-orange-50 px-5 py-4 active:bg-orange-100 dark:border-orange-900 dark:bg-orange-950"
+      >
+        <span className="text-base font-semibold text-orange-700 dark:text-orange-300">
+          🔥 {s.streak.current}일 연속
+        </span>
+        <span className="text-xs text-orange-600 dark:text-orange-400">
+          {s.streak.doneToday ? "오늘 완료!" : s.streak.current > 0 ? "오늘 하면 이어져요" : "오늘 시작해 봐요"}
+        </span>
+      </Link>
+
       <section className="mt-4 grid grid-cols-2 gap-3">
         <Stat label="전체 단어" value={s.total} />
         <Stat label="외운 단어" value={s.graduated} />
       </section>
+
+      {s.wrongCount > 0 && (
+        <Link
+          href="/words?filter=wrong"
+          className="mt-3 flex items-center justify-between rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-medium text-red-700 active:bg-red-100 dark:border-red-900 dark:bg-red-950 dark:text-red-300"
+        >
+          <span>틀렸던 단어 {s.wrongCount}개 모아보기</span>
+          <span>→</span>
+        </Link>
+      )}
+
+      <Link
+        href="/talk"
+        className="mt-3 block rounded-2xl border border-stone-200 bg-white px-5 py-4 text-sm text-stone-600 active:bg-stone-50 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-300"
+      >
+        💬 상황별 회화 연습하기 →
+      </Link>
 
       <Link
         href="/words/import"

@@ -4,7 +4,8 @@ export type QType =
   | "mc_ko_en"
   | "cloze_mc"
   | "listen_meaning"
-  | "listen_word";
+  | "listen_word"
+  | "build_sentence";
 
 export const Q_TYPES: QType[] = [
   "flashcard",
@@ -13,6 +14,7 @@ export const Q_TYPES: QType[] = [
   "cloze_mc",
   "listen_meaning",
   "listen_word",
+  "build_sentence",
 ];
 
 export interface Word {
@@ -42,4 +44,7 @@ export interface Question {
   cloze?: string;
   options: string[];
   answer: string;
+  /** 문장 만들기: 정답 순서의 단어(타일)와, 오답 타일을 섞은 보기 */
+  sentenceTokens?: string[];
+  tiles?: string[];
 }

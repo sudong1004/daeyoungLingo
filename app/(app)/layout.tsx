@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { requireAuth } from "@/lib/auth";
-import { logout } from "../login/actions";
 
 const tabs = [
   { href: "/", label: "홈", icon: "🏠" },
   { href: "/study", label: "학습", icon: "✏️" },
+  { href: "/talk", label: "회화", icon: "💬" },
   { href: "/words", label: "단어장", icon: "📖" },
+  { href: "/stats", label: "기록", icon: "📊" },
 ];
 
 export default async function AppLayout({
@@ -31,15 +32,6 @@ export default async function AppLayout({
               {t.label}
             </Link>
           ))}
-          <form action={logout} className="flex flex-1">
-            <button
-              type="submit"
-              className="flex w-full flex-col items-center gap-0.5 py-2.5 text-xs font-medium text-stone-400 active:bg-stone-100 dark:active:bg-stone-900"
-            >
-              <span className="text-xl">🚪</span>
-              나가기
-            </button>
-          </form>
         </div>
       </nav>
     </div>

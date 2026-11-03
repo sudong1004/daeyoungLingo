@@ -1,0 +1,117 @@
+sunrise | 일출 | We watched the sunrise.
+sunset | 일몰 | The sunset is beautiful.
+cloudy | 흐린 | It's cloudy today.
+windy | 바람이 많이 부는 | It's windy outside.
+storm | 폭풍 | A storm is coming.
+umbrella | 우산 | Take an umbrella.
+season | 계절 | Spring is my favorite season.
+spring | 봄 | Flowers bloom in spring.
+summer | 여름 | I swim in summer.
+autumn | 가을 | The leaves fall in autumn.
+winter | 겨울 | It snows in winter.
+mountain | 산 | We climb the mountain.
+river | 강 | The river is wide.
+beach | 해변 | Let's go to the beach.
+forest | 숲 | Birds live in the forest.
+island | 섬 | Jeju is an island.
+tree | 나무 | The tree is tall.
+flower | 꽃 | She gave me a flower.
+grass | 풀 | The grass is wet.
+sky | 하늘 | The sky is clear.
+moon | 달 | The moon is bright tonight.
+star | 별 | I can see a star.
+shirt | 셔츠 | I need a new shirt.
+pants | 바지 | These pants are too long.
+shoes | 신발 | I bought new shoes.
+socks | 양말 | My socks are wet.
+hat | 모자 | He wears a hat.
+coat | 외투 | Wear a coat. It's cold.
+dress | 원피스 | She wears a red dress.
+glasses | 안경 | I can't find my glasses.
+pocket | 주머니 | My phone is in my pocket.
+bag | 가방 | Put it in your bag.
+wallet | 지갑 | I lost my wallet.
+gift | 선물 | This gift is for you.
+fridge | 냉장고 | The milk is in the fridge.
+oven | 오븐 | Put the pizza in the oven.
+sofa | 소파 | The cat is on the sofa.
+bed | 침대 | I go to bed at eleven.
+pillow | 베개 | I need a soft pillow.
+blanket | 담요 | Use a blanket. It's cold.
+towel | 수건 | Can I have a towel?
+soap | 비누 | Wash with soap.
+mirror | 거울 | Look in the mirror.
+stairs | 계단 | Be careful on the stairs.
+elevator | 엘리베이터 | Take the elevator to the fifth floor.
+floor | 바닥 | The floor is clean.
+roof | 지붕 | The roof is red.
+garden | 정원 | We have a small garden.
+soup | 수프 | I'd like some soup.
+salad | 샐러드 | I'll have a salad.
+sandwich | 샌드위치 | I eat a sandwich for lunch.
+noodles | 국수 | I love noodles.
+beef | 소고기 | I don't eat beef.
+pork | 돼지고기 | Pork is popular in Korea.
+vegetable | 채소 | Eat more vegetables.
+fruit | 과일 | I eat fruit every day.
+sugar | 설탕 | No sugar, please.
+salt | 소금 | Pass me the salt.
+butter | 버터 | I put butter on my toast.
+cheese | 치즈 | I like cheese pizza.
+juice | 주스 | I'd like orange juice.
+tea | 차 | Would you like some tea?
+beer | 맥주 | He drinks a beer.
+coffee | 커피 | I drink coffee every morning.
+plate | 접시 | Put the food on the plate.
+spoon | 숟가락 | I need a spoon.
+fork | 포크 | Use a fork.
+knife | 칼 | Be careful with the knife.
+cup | 컵 | I broke a cup.
+bottle | 병 | I bought a bottle of water.
+heart | 심장, 마음 | He has a kind heart.
+arm | 팔 | My arm hurts.
+leg | 다리 | I hurt my leg.
+back | 등 | My back hurts.
+shoulder | 어깨 | I have a sore shoulder.
+stomach | 배 | My stomach hurts.
+tooth | 이 | I have a bad tooth.
+throat | 목구멍 | I have a sore throat.
+skin | 피부 | I have dry skin.
+hair | 머리카락 | She has long hair.
+face | 얼굴 | Wash your face.
+smile | 미소 짓다 | Please smile.
+cry | 울다 | Don't cry.
+laugh | 웃다 | We laugh a lot.
+shout | 소리치다 | Don't shout in here.
+whisper | 속삭이다 | Whisper in the library.
+listen | 듣다 | Listen to me.
+speak | 말하다 | Can you speak slowly?
+talk | 이야기하다 | Let's talk later.
+write | 쓰다 | Write your name here.
+draw | 그리다 | I like to draw.
+paint | 페인트칠하다 | We paint the wall.
+climb | 오르다 | We climb a mountain every year.
+jump | 점프하다 | The dog can jump high.
+throw | 던지다 | Throw me the ball.
+catch | 잡다 | Catch the ball.
+push | 밀다 | Push the door.
+pull | 당기다 | Pull the door.
+fix | 고치다 | Can you fix my phone?
+break | 부수다 | Don't break the window.
+lose | 잃어버리다 | Don't lose your key.
+find | 찾다 | I can't find my bag.
+look for | 찾다 | I look for my keys.
+look at | ~을 보다 | Look at the sky.
+pick up | 집다 | Pick up your toys.
+put | 놓다 | Put it on the table.
+leave | 떠나다 | We leave at nine.
+arrive | 도착하다 | The train will arrive soon.
+return | 돌아오다 | I return home at six.
+stay | 머물다 | I stay at home on Sunday.
+join | 가입하다 | I want to join the club.
+move | 움직이다 | Don't move.
+follow | 따라가다 | Follow me.
+guess | 추측하다 | Guess what happened.
+worry | 걱정하다 | Don't worry about it.
+prefer | 더 좋아하다 | I prefer tea to coffee.
+understand | 이해하다 | I understand now.

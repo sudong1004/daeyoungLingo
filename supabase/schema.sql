@@ -31,8 +31,20 @@ create table if not exists public.study_logs (
 create index if not exists study_logs_answered_idx on public.study_logs (answered_at);
 create index if not exists study_logs_word_idx on public.study_logs (word_id);
 
+-- 상황별 회화 연습 기록 (연속 학습 일수와 기록 화면에 사용)
+create table if not exists public.scenario_runs (
+  id          uuid primary key default gen_random_uuid(),
+  scenario_id text not null,
+  correct     int  not null,   -- 처음 시도에 맞힌 내 대사 수
+  total       int  not null,   -- 내 대사 수
+  finished_at timestamptz not null default now()
+);
+
+create index if not exists scenario_runs_finished_idx on public.scenario_runs (finished_at);
+
 -- RLS를 켜고 정책은 만들지 않습니다.
 -- → 브라우저에서 anon/publishable key로는 이 테이블에 접근할 수 없고,
 --   서버(Next.js)가 service role / secret key로만 읽고 씁니다.
 alter table public.words enable row level security;
 alter table public.study_logs enable row level security;
+alter table public.scenario_runs enable row level security;

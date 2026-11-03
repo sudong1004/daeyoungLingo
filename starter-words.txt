@@ -1,0 +1,104 @@
+Hello | 안녕하세요 | Hello, nice to meet you.
+Nice to meet you | 만나서 반갑습니다 | Nice to meet you, Tom.
+Thank you | 고맙습니다 | Thank you for your help.
+Thanks | 고마워요 | Thanks a lot.
+You're welcome | 천만에요 | You're welcome. Any time.
+Sorry | 미안합니다 | Sorry, I'm late.
+Excuse me | 실례합니다, 저기요 | Excuse me, where is the bathroom?
+Please | 부탁합니다, 제발 | Water, please.
+Goodbye | 안녕히 가세요 | Goodbye, see you tomorrow.
+See you later | 나중에 봐요 | See you later, Anna.
+Good morning | 좋은 아침이에요 | Good morning! How are you?
+Good night | 안녕히 주무세요 | Good night, sleep well.
+How are you? | 어떻게 지내세요? | Hi, how are you? I'm fine.
+I'm fine | 저는 잘 지내요 | I'm fine, thank you.
+What's your name? | 이름이 뭐예요? | What's your name? I'm Sam.
+My name is | 제 이름은 ~입니다 | My name is Jin.
+Yes | 네 | Yes, I do.
+No | 아니요 | No, thank you.
+I don't know | 저는 모르겠어요 | I don't know the answer.
+I understand | 이해했어요 | I understand now.
+I don't understand | 이해가 안 돼요 | Sorry, I don't understand.
+Can you repeat that? | 다시 말해 주실래요? | Can you repeat that, please?
+Speak slowly | 천천히 말해 주세요 | Please speak slowly.
+Do you speak English? | 영어 할 줄 아세요? | Do you speak English? A little.
+I'm learning English | 저는 영어를 배우고 있어요 | I'm learning English every day.
+Where is the bathroom? | 화장실이 어디예요? | Where is the bathroom? It's over there.
+Help | 도와주세요, 도움 | Help! I'm lost.
+I'm lost | 길을 잃었어요 | I'm lost. Can you help me?
+water | 물 | I want some water.
+coffee | 커피 | One coffee, please.
+menu | 메뉴 | Can I see the menu?
+order | 주문하다 | I'd like to order.
+I'd like | ~을 주세요, ~하고 싶어요 | I'd like a coffee, please.
+Can I have | ~ 주실 수 있나요? | Can I have some water, please?
+bill | 계산서 | Can I have the bill, please?
+delicious | 맛있는 | This pasta is delicious.
+hungry | 배고픈 | I'm very hungry.
+thirsty | 목마른 | I'm thirsty. Water, please.
+spicy | 매운 | It's too spicy for me.
+A table for two | 두 명 자리 | A table for two, please.
+takeout | 포장 음식 | Two coffees for takeout, please.
+breakfast | 아침 식사 | I eat breakfast at seven.
+lunch | 점심 식사 | Let's have lunch together.
+dinner | 저녁 식사 | What's for dinner?
+Cheers | 건배 | Cheers! Happy new year.
+How much is it? | 이거 얼마예요? | How much is it? I'll take two.
+expensive | 비싼 | This bag is too expensive.
+cheap | 싼 | That shirt is cheap.
+I'll take it | 그걸로 할게요 | It looks good. I'll take it.
+size | 사이즈, 크기 | Do you have a bigger size?
+try on | 입어 보다 | Can I try on this jacket?
+cash | 현금 | Do you take cash?
+credit card | 신용카드 | Can I pay by credit card?
+receipt | 영수증 | Can I get a receipt?
+open | 열린, 영업 중인 | Is the store open now?
+closed | 닫힌 | The bank is closed today.
+left | 왼쪽 | Turn left at the corner.
+right | 오른쪽 | Turn right at the light.
+straight | 곧장, 똑바로 | Go straight for two blocks.
+near | 가까운 | Is it near here?
+far | 먼 | Is it far from here?
+station | 역 | Where is the subway station?
+bus | 버스 | The bus is late.
+taxi | 택시 | Can you call a taxi?
+ticket | 표 | One ticket to Busan, please.
+airport | 공항 | I'm going to the airport.
+map | 지도 | Do you have a map?
+hotel | 호텔 | My hotel is near here.
+go | 가다 | I go to work by bus.
+come | 오다 | Please come here.
+eat | 먹다 | I want to eat pizza.
+drink | 마시다 | I drink water every day.
+want | 원하다 | I want a cup of tea.
+need | 필요하다 | I need your help.
+like | 좋아하다 | I like music.
+love | 사랑하다 | I love this song.
+have | 가지고 있다 | I have two sisters.
+buy | 사다 | I want to buy a hat.
+know | 알다 | I know him.
+think | 생각하다 | I think it's good.
+work | 일하다 | I work from nine to six.
+study | 공부하다 | I study English at night.
+sleep | 자다 | I sleep eight hours.
+wait | 기다리다 | Please wait here.
+call | 전화하다 | I'll call you tomorrow.
+look | 보다 | Look at this picture.
+listen | 듣다 | Listen to me, please.
+good | 좋은 | This is a good idea.
+bad | 나쁜 | I have a bad cold.
+big | 큰 | It's a big city.
+small | 작은 | I have a small bag.
+hot | 더운, 뜨거운 | It's very hot today.
+cold | 추운, 차가운 | The water is cold.
+happy | 행복한 | I'm happy today.
+tired | 피곤한 | I'm tired after work.
+busy | 바쁜 | I'm busy right now.
+easy | 쉬운 | This game is easy.
+difficult | 어려운 | English is difficult, but fun.
+beautiful | 아름다운 | The view is beautiful.
+today | 오늘 | What are you doing today?
+tomorrow | 내일 | See you tomorrow.
+now | 지금 | I'm free now.
+family | 가족 | I love my family.
+friend | 친구 | He is my friend.

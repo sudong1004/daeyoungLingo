@@ -1,0 +1,103 @@
+How's it going? | 잘 지내? | Hey, how's it going? Good!
+See you later | 나중에 봐요 | See you later, Anna.
+Take care | 몸조심하세요 | Take care and be safe.
+No problem | 문제없어요 | Thanks! No problem.
+Of course | 물론이죠 | Of course, you can sit here.
+Just a moment | 잠시만요 | Just a moment, please.
+I'm sorry | 죄송합니다 | I'm sorry, I didn't hear you.
+Can you help me? | 도와주실 수 있어요? | Can you help me? I'm lost.
+Could you say that again? | 다시 말해 주시겠어요? | Could you say that again? Thank you.
+I don't understand | 이해가 안 돼요 | Sorry, I don't understand.
+What does it mean? | 그게 무슨 뜻이에요? | What does it mean? I'm not sure.
+Do you speak English? | 영어 하세요? | Do you speak English? A little.
+I'm from Korea | 저는 한국에서 왔어요 | Hello, I'm from Korea.
+What do you do? | 무슨 일 하세요? | What do you do? I'm a student.
+Have a nice day | 좋은 하루 보내세요 | Thanks, have a nice day.
+I'd like | ~을 주세요 | I'd like a coffee, please.
+menu | 메뉴 | Can I see the menu?
+order | 주문하다 | I'd like to order now.
+bill | 계산서 | Can I have the bill, please?
+reservation | 예약 | I have a reservation for two.
+vegetarian | 채식주의자 | I'm vegetarian.
+allergic | 알레르기가 있는 | I'm allergic to nuts.
+delicious | 맛있는 | This soup is delicious.
+spicy | 매운 | It's too spicy for me.
+expensive | 비싼 | This bag is too expensive.
+cheap | 싼 | The shirt is cheap.
+discount | 할인 | Is there a discount?
+try on | 입어 보다 | Can I try on this jacket?
+size | 사이즈 | Do you have a bigger size?
+receipt | 영수증 | Can I get a receipt?
+cash | 현금 | Do you take cash?
+refund | 환불 | I want a refund, please.
+airport | 공항 | I'm going to the airport.
+passport | 여권 | Here is my passport.
+ticket | 표 | One ticket to Busan, please.
+station | 역 | Where is the subway station?
+platform | 승강장 | The train is on platform two.
+luggage | 짐, 수하물 | Where is my luggage?
+map | 지도 | Do you have a map?
+turn left | 왼쪽으로 돌다 | Turn left at the corner.
+turn right | 오른쪽으로 돌다 | Turn right at the light.
+straight | 곧장, 똑바로 | Go straight for two blocks.
+corner | 모퉁이 | The bank is on the corner.
+near | 가까운 | Is it near here?
+far | 먼 | Is it far from here?
+hotel | 호텔 | My hotel is near here.
+check in | 체크인하다 | I want to check in, please.
+delay | 지연 | The flight has a delay.
+excited | 신이 난 | I'm excited about the trip.
+nervous | 긴장한 | I'm nervous about the test.
+worried | 걱정하는 | I'm worried about him.
+angry | 화난 | Mom is angry today.
+bored | 지루한 | I'm bored at home.
+surprised | 놀란 | I was surprised by the news.
+proud | 자랑스러운 | I'm proud of you.
+lonely | 외로운 | I feel lonely at night.
+kind | 친절한 | She is very kind.
+funny | 웃긴, 재미있는 | He is very funny.
+shy | 수줍은 | My brother is shy.
+smart | 똑똑한 | She is a smart girl.
+agree | 동의하다 | I agree with you.
+decide | 결정하다 | I can't decide.
+forget | 잊다 | Don't forget your keys.
+remember | 기억하다 | I remember his name.
+believe | 믿다 | I don't believe you.
+borrow | 빌리다 | Can I borrow your pen?
+lend | 빌려주다 | Can you lend me a pen?
+choose | 고르다 | Please choose one.
+change | 바꾸다 | I want to change my seat.
+finish | 끝내다 | I finish work at six.
+start | 시작하다 | The class will start soon.
+meet | 만나다 | Let's meet at noon.
+visit | 방문하다 | I want to visit Japan.
+cook | 요리하다 | I cook dinner at home.
+travel | 여행하다 | I love to travel.
+practice | 연습하다 | I practice English every day.
+learn | 배우다 | I learn new words daily.
+explain | 설명하다 | Can you explain this word?
+invite | 초대하다 | I want to invite you.
+enjoy | 즐기다 | I enjoy music.
+weekend | 주말 | I relax on the weekend.
+vacation | 휴가 | I'm on vacation next week.
+birthday | 생일 | Today is my birthday.
+neighbor | 이웃 | My neighbor is friendly.
+movie | 영화 | Let's watch a movie.
+music | 음악 | I listen to music.
+city | 도시 | Seoul is a big city.
+weather | 날씨 | The weather is nice today.
+problem | 문제 | I have a problem.
+question | 질문 | I have a question.
+idea | 아이디어, 생각 | That is a good idea.
+job | 직업 | I love my job.
+phone | 전화기 | My phone is new.
+message | 메시지 | I sent you a message.
+price | 가격 | What is the price?
+always | 항상 | I always drink coffee.
+usually | 보통 | I usually get up at seven.
+sometimes | 가끔 | I sometimes walk to work.
+never | 절대 ~않다 | I never eat meat.
+already | 이미 | I already ate lunch.
+soon | 곧 | See you soon.
+early | 일찍 | I get up early.
+late | 늦은 | Sorry, I'm late.
