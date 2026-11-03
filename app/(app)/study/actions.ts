@@ -1,6 +1,6 @@
 "use server";
 
-import { assertAuth } from "@/lib/auth";
+import { assertUser } from "@/lib/auth";
 import { applyResult } from "@/lib/srs";
 import { getSupabase } from "@/lib/supabase";
 import { Q_TYPES, type QType } from "@/lib/types";
@@ -20,7 +20,7 @@ export async function submitAnswer(input: {
   correct: boolean;
   isRetry: boolean;
 }): Promise<void> {
-  await assertAuth();
+  const user = await assertUser();
   const { wordId, type, correct, isRetry } = input;
   if (!UUID_RE.test(wordId) || !Q_TYPES.includes(type)) {
     throw new Error("Invalid input");
@@ -28,9 +28,10 @@ export async function submitAnswer(input: {
 
   const sb = getSupabase();
   const found = await sb
-    .from("words")
-    .select("id, level, correct_count, wrong_count, first_studied_at")
-    .eq("id", wordId)
+    .from("word_progress")
+    .select("level, correct_count, wrong_count, first_studied_at")
+    .eq("user_id", user)
+    .eq("word_id", wordId)
     .maybeSingle();
   if (found.error) throw new Error(found.error.message);
   if (!found.data) throw new Error("Word not found");
@@ -43,6 +44,7 @@ export async function submitAnswer(input: {
 
   const now = new Date();
   const log = await sb.from("study_logs").insert({
+    user_id: user,
     word_id: wordId,
     question_type: type,
     is_correct: correct,
@@ -54,7 +56,7 @@ export async function submitAnswer(input: {
 
   const r = applyResult(w.level, correct, now);
   const upd = await sb
-    .from("words")
+    .from("word_progress")
     .update({
       level: r.level,
       next_review_at: r.nextReviewAt.toISOString(),
@@ -63,6 +65,7 @@ export async function submitAnswer(input: {
       last_reviewed_at: now.toISOString(),
       first_studied_at: w.first_studied_at ?? now.toISOString(),
     })
-    .eq("id", wordId);
+    .eq("user_id", user)
+    .eq("word_id", wordId);
   if (upd.error) throw new Error(upd.error.message);
 }

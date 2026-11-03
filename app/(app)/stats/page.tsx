@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { logout } from "@/app/login/actions";
+import { requireUser } from "@/lib/auth";
 import { TYPE_LABEL } from "@/lib/labels";
 import { getStats } from "@/lib/stats";
 
@@ -7,7 +8,7 @@ const DOW = ["일", "월", "화", "수", "목", "금", "토"];
 const dowOf = (key: string) => DOW[new Date(`${key}T00:00:00Z`).getUTCDay()];
 
 export default async function StatsPage() {
-  const s = await getStats();
+  const s = await getStats(await requireUser());
   const maxAnswers = Math.max(1, ...s.week.map((d) => d.answers));
   const pct = (a: number, b: number) => (b ? Math.round((a / b) * 100) : 0);
 

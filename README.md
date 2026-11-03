@@ -69,3 +69,9 @@ supabase/schema.sql      테이블 (words, study_logs)
 `lib/srs.ts`: 복습 간격(`INTERVAL_DAYS`), 세션 분량 규칙(`planSession`: 최근 정답률이 높으면 새 단어·복습을 늘리고 낮으면 줄임).
 `lib/questions.ts`: 숙련도별로 나오는 문제 유형(`TYPES_BY_LEVEL`).
 `lib/scenarios.ts`: 회화 시나리오 추가·수정 (대사는 `who: "me" | "other"`, 영어와 한국어를 함께 적음).
+
+## 계정 2개 (단어장은 같이, 진도는 따로)
+
+환경변수 `APP_PASSWORD` 로 로그인하면 첫 번째 사람, `APP_PASSWORD_2` 로 로그인하면 두 번째 사람입니다.
+단어는 둘이 같이 쓰고, 숙련도·틀린 단어·연속 학습·회화 기록은 각자 따로 쌓입니다.
+`supabase/schema.sql` 을 다시 실행하면 진도 표(`word_progress`)가 만들어지고 기존 진도는 첫 번째 사람에게 이어집니다.

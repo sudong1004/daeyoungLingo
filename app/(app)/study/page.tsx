@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { requireUser } from "@/lib/auth";
 import { buildSession } from "@/lib/session";
 import StudyClient from "./StudyClient";
 
 export default async function StudyPage() {
-  const questions = await buildSession();
+  const questions = await buildSession(await requireUser());
 
   if (questions.length === 0) {
     return (

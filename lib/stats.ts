@@ -1,6 +1,7 @@
 import "server-only";
 import { kstDateKey } from "./kst";
 import { addDays, computeStreak } from "./streak";
+import type { UserId } from "./auth";
 import { getSupabase } from "./supabase";
 import type { QType } from "./types";
 
@@ -9,7 +10,7 @@ const PAGE = 1000;
 type LogRow = { answered_at: string; is_correct: boolean; question_type: string };
 
 /** study_logs 를 최신순으로 페이지를 넘기며 가져옵니다 (Supabase 는 한 번에 1000개까지) */
-async function fetchLogs(sinceDays: number, maxPages: number, stop?: (rows: LogRow[]) => boolean): Promise<LogRow[]> {
+async function fetchLogs(user: UserId, sinceDays: number, maxPages: number, stop?: (rows: LogRow[]) => boolean): Promise<LogRow[]> {
   const sb = getSupabase();
   const since = new Date(Date.now() - sinceDays * 86_400_000).toISOString();
   const all: LogRow[] = [];
@@ -17,6 +18,7 @@ async function fetchLogs(sinceDays: number, maxPages: number, stop?: (rows: LogR
     const { data, error } = await sb
       .from("study_logs")
       .select("answered_at, is_correct, question_type")
+      .eq("user_id", user)
       .gte("answered_at", since)
       .order("answered_at", { ascending: false })
       .range(p * PAGE, p * PAGE + PAGE - 1);
@@ -30,11 +32,12 @@ async function fetchLogs(sinceDays: number, maxPages: number, stop?: (rows: LogR
 }
 
 /** 회화 연습 기록. 테이블이 아직 없으면 빈 배열 (앱은 그대로 동작) */
-async function fetchScenarioRuns(sinceDays: number) {
+async function fetchScenarioRuns(user: UserId, sinceDays: number) {
   const since = new Date(Date.now() - sinceDays * 86_400_000).toISOString();
   const { data, error } = await getSupabase()
     .from("scenario_runs")
     .select("finished_at, correct, total")
+    .eq("user_id", user)
     .gte("finished_at", since)
     .order("finished_at", { ascending: false })
     .limit(1000);
@@ -49,16 +52,16 @@ export interface StreakInfo {
 }
 
 /** 홈 화면용: 연속 일수만 가볍게. 끊긴 날이 확인되면 더 안 읽음 */
-export async function getStreak(): Promise<StreakInfo> {
+export async function getStreak(user: UserId): Promise<StreakInfo> {
   const today = kstDateKey(new Date());
-  const logs = await fetchLogs(120, 10, (rows) => {
+  const logs = await fetchLogs(user, 120, 10, (rows) => {
     const days = new Set(rows.map((r) => kstDateKey(new Date(r.answered_at))));
     const { currentStart } = computeStreak(days, today);
     const oldest = kstDateKey(new Date(rows[rows.length - 1].answered_at));
     // 현재 연속이 시작된 날보다 더 이전 기록까지 읽었다면 끊긴 지점을 확인한 것
     return currentStart ? oldest < addDays(currentStart, -1) : oldest < addDays(today, -1);
   });
-  const runs = await fetchScenarioRuns(120);
+  const runs = await fetchScenarioRuns(user, 120);
   const days = new Set([
     ...logs.map((r) => kstDateKey(new Date(r.answered_at))),
     ...runs.map((r) => kstDateKey(new Date(r.finished_at))),
@@ -84,19 +87,28 @@ export interface Stats {
   talk: { runs: number; lastScore: string | null };
 }
 
-export async function getStats(): Promise<Stats> {
+export async function getStats(user: UserId): Promise<Stats> {
   const sb = getSupabase();
   const today = kstDateKey(new Date());
 
   const [logs, runs, total, fresh, graduated, missed] = await Promise.all([
-    fetchLogs(120, 10),
-    fetchScenarioRuns(120),
-    sb.from("words").select("id", { count: "exact", head: true }),
-    sb.from("words").select("id", { count: "exact", head: true }).is("first_studied_at", null),
-    sb.from("words").select("id", { count: "exact", head: true }).gte("level", 5),
+    fetchLogs(user, 120, 10),
+    fetchScenarioRuns(user, 120),
+    sb.from("word_progress").select("word_id", { count: "exact", head: true }).eq("user_id", user),
     sb
-      .from("words")
-      .select("id, word, meaning, wrong_count, correct_count")
+      .from("word_progress")
+      .select("word_id", { count: "exact", head: true })
+      .eq("user_id", user)
+      .is("first_studied_at", null),
+    sb
+      .from("word_progress")
+      .select("word_id", { count: "exact", head: true })
+      .eq("user_id", user)
+      .gte("level", 5),
+    sb
+      .from("word_progress")
+      .select("wrong_count, correct_count, words!inner(id, word, meaning)")
+      .eq("user_id", user)
       .gt("wrong_count", 0)
       .order("wrong_count", { ascending: false })
       .limit(8),
@@ -144,7 +156,17 @@ export async function getStats(): Promise<Stats> {
       .filter((t) => t.total >= 3)
       .sort((a, b) => a.correct / a.total - b.correct / b.total),
     words: { total: totalWords, fresh: freshWords, learning: Math.max(0, totalWords - freshWords - grad), graduated: grad },
-    mostMissed: (missed.data ?? []) as Stats["mostMissed"],
+    mostMissed: ((missed.data ?? []) as unknown as {
+      wrong_count: number;
+      correct_count: number;
+      words: { id: string; word: string; meaning: string };
+    }[]).map((m) => ({
+      id: m.words.id,
+      word: m.words.word,
+      meaning: m.words.meaning,
+      wrong_count: m.wrong_count,
+      correct_count: m.correct_count,
+    })),
     talk: { runs: runs.length, lastScore: last ? `${last.correct}/${last.total}` : null },
   };
 }

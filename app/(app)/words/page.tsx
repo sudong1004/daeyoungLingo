@@ -1,9 +1,10 @@
 import Link from "next/link";
 import LevelDots from "@/components/LevelDots";
 import Speaker from "@/components/Speaker";
+import { requireUser } from "@/lib/auth";
+import { PROGRESS_SELECT, toWord, type ProgressRow } from "@/lib/progress";
 import { getSupabase } from "@/lib/supabase";
 import { MAX_LEVEL } from "@/lib/srs";
-import type { Word } from "@/lib/types";
 
 const FILTERS = [
   { key: "all", label: "전체" },
@@ -20,14 +21,16 @@ export default async function WordsPage({
   const { q = "", filter = "all" } = await searchParams;
   const term = q.trim().replace(/[,%()*]/g, " ").trim();
 
+  const user = await requireUser();
   let query = getSupabase()
-    .from("words")
-    .select("*", { count: "exact" });
+    .from("word_progress")
+    .select(PROGRESS_SELECT, { count: "exact" })
+    .eq("user_id", user);
 
   if (filter === "learning") query = query.lt("level", MAX_LEVEL);
   if (filter === "known") query = query.gte("level", MAX_LEVEL);
   if (filter === "wrong") query = query.gt("wrong_count", 0);
-  if (term) query = query.or(`word.ilike.%${term}%,meaning.ilike.%${term}%`);
+  if (term) query = query.or(`word.ilike.%${term}%,meaning.ilike.%${term}%`, { referencedTable: "words" });
 
   query =
     filter === "wrong"
@@ -38,7 +41,7 @@ export default async function WordsPage({
 
   const { data, count, error } = await query.limit(300);
   if (error) throw new Error(error.message || "Supabase 오류");
-  const words = (data ?? []) as Word[];
+  const words = ((data ?? []) as unknown as ProgressRow[]).map(toWord);
 
   const href = (f: string) =>
     `/words?filter=${f}${term ? `&q=${encodeURIComponent(term)}` : ""}`;

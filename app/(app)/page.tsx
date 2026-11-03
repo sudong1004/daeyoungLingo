@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { requireUser } from "@/lib/auth";
 import { getHomeStats } from "@/lib/session";
 
 export default async function HomePage() {
-  const s = await getHomeStats();
+  const s = await getHomeStats(await requireUser());
   const todo = s.dueNext + s.newNext;
   const mood =
     s.accuracy === null

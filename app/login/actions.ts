@@ -4,15 +4,16 @@ import { redirect } from "next/navigation";
 import {
   clearAuthCookie,
   isPasswordConfigured,
-  passwordMatches,
+  userForPassword,
   setAuthCookie,
 } from "@/lib/auth";
 
 export async function login(formData: FormData) {
   const password = String(formData.get("password") ?? "");
   if (!isPasswordConfigured()) redirect("/login?error=config");
-  if (!passwordMatches(password)) redirect("/login?error=wrong");
-  await setAuthCookie();
+  const user = userForPassword(password);
+  if (!user) redirect("/login?error=wrong");
+  await setAuthCookie(user);
   redirect("/");
 }
 

@@ -1,6 +1,6 @@
 "use server";
 
-import { assertAuth } from "@/lib/auth";
+import { assertUser } from "@/lib/auth";
 import { getScenario, myLineCount } from "@/lib/scenarios";
 import { getSupabase } from "@/lib/supabase";
 
@@ -12,13 +12,14 @@ export async function recordScenarioRun(input: {
   scenarioId: string;
   correct: number;
 }): Promise<{ ok: boolean }> {
-  await assertAuth();
+  const user = await assertUser();
   const scenario = getScenario(input.scenarioId);
   if (!scenario) return { ok: false };
   const total = myLineCount(scenario);
   const correct = Math.max(0, Math.min(Math.trunc(Number(input.correct)) || 0, total));
 
   const { error } = await getSupabase().from("scenario_runs").insert({
+    user_id: user,
     scenario_id: scenario.id,
     correct,
     total,

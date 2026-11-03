@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireAuth } from "@/lib/auth";
+import { requireUser } from "@/lib/auth";
 
 // 빌드 시점에 DB(Supabase)를 호출하지 않도록 항상 요청 시점에 렌더링
 export const dynamic = "force-dynamic";
@@ -17,7 +17,7 @@ export default async function AppLayout({
 }: {
   children: React.ReactNode;
 }) {
-  await requireAuth();
+  await requireUser();
 
   return (
     <div className="mx-auto flex w-full max-w-xl flex-1 flex-col pb-24">

@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { assertAuth } from "@/lib/auth";
+import { assertUser } from "@/lib/auth";
 import { getSupabase } from "@/lib/supabase";
 import { parseBulk } from "@/lib/bulk";
 
@@ -13,7 +13,7 @@ function clean(v: FormDataEntryValue | null): string {
 }
 
 export async function addWord(formData: FormData) {
-  await assertAuth();
+  await assertUser();
   const word = clean(formData.get("word"));
   const meaning = clean(formData.get("meaning"));
   const example = clean(formData.get("example"));
@@ -33,7 +33,7 @@ export async function addWord(formData: FormData) {
 }
 
 export async function updateWord(formData: FormData) {
-  await assertAuth();
+  await assertUser();
   const id = clean(formData.get("id"));
   const word = clean(formData.get("word"));
   const meaning = clean(formData.get("meaning"));
@@ -54,7 +54,7 @@ export async function updateWord(formData: FormData) {
 }
 
 export async function deleteWord(formData: FormData) {
-  await assertAuth();
+  await assertUser();
   const id = clean(formData.get("id"));
   if (!UUID_RE.test(id)) redirect("/words");
   const { error } = await getSupabase().from("words").delete().eq("id", id);
@@ -63,7 +63,7 @@ export async function deleteWord(formData: FormData) {
 }
 
 export async function importWords(formData: FormData) {
-  await assertAuth();
+  await assertUser();
   const rows = parseBulk(String(formData.get("text") ?? ""));
   if (rows.length === 0) redirect("/words/import?error=empty");
 

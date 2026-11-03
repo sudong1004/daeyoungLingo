@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { SCENARIOS, myLineCount } from "@/lib/scenarios";
+import { requireUser, type UserId } from "@/lib/auth";
 import { getSupabase } from "@/lib/supabase";
 
 /** 시나리오별 최고 점수. 테이블이 없거나 조회에 실패하면 빈 값 (화면은 그대로 보여 줌) */
-async function bestScores(): Promise<Map<string, { correct: number; total: number; runs: number }>> {
+async function bestScores(user: UserId): Promise<Map<string, { correct: number; total: number; runs: number }>> {
   const best = new Map<string, { correct: number; total: number; runs: number }>();
   const { data, error } = await getSupabase()
     .from("scenario_runs")
     .select("scenario_id, correct, total")
+    .eq("user_id", user)
     .order("finished_at", { ascending: false })
     .limit(500);
   if (error || !data) return best;
@@ -27,7 +29,7 @@ async function bestScores(): Promise<Map<string, { correct: number; total: numbe
 }
 
 export default async function TalkPage() {
-  const best = await bestScores();
+  const best = await bestScores(await requireUser());
 
   return (
     <main>
