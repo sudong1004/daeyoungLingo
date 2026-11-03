@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { requireAuth } from "@/lib/auth";
 
+// 빌드 시점에 DB(Supabase)를 호출하지 않도록 항상 요청 시점에 렌더링
+export const dynamic = "force-dynamic";
+
 const tabs = [
   { href: "/", label: "홈", icon: "🏠" },
   { href: "/study", label: "학습", icon: "✏️" },
